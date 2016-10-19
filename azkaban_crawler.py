@@ -14,6 +14,8 @@ def login():
     data = 'action=login&username=%s&password=%s' % (AZKABAN_USERNAME, AZKABAN_PASSWORD)
     response = requests.post(url, headers=AZKABAN_REST_HEADERS, data=data)
     res = json.loads(response.content)
+    if res.has_key('error'):
+        raise Exception("Error during login: %s" % res['error'])
     return res['session.id']
 
 #get job id to start from.
